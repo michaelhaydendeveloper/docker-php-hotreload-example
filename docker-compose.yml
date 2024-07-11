@@ -1,0 +1,20 @@
+version: '3'
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html
+      - /var/www/html/vendor  # Optionally, mount vendor directory if needed for development
+    depends_on:
+      - composer
+    environment:
+      - COMPOSER_ALLOW_SUPERUSER=1  # Allow Composer to run as superuser (for non-production environments)
+
+  composer:
+    image: composer:2
+    volumes:
+      - ./src:/var/www/html
